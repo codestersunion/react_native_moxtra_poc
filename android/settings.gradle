@@ -1,0 +1,3 @@
+rootProject.name = 'MoxtraPOC'
+
+include ':app'

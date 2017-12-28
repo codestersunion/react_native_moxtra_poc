@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MoxtraPOC</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">Loading</string>
+    <string name="action_logout">Logout</string>
+    <string name="selectUserTitle">Select User</string>
+    <string name="Delete">Delete</string>
+    <string name="delete_confirm">Are you sure to delete the chat?</string>
+    <string name="delete_confirm_title">Delete Chat</string>
+    <string name="default_badge_number">0</string>
+    <string name="Meet">Meet</string>
+</resources>
