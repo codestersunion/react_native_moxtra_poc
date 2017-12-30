@@ -14,9 +14,21 @@ import {
 import BatchedBridge from "react-native/Libraries/BatchedBridge/BatchedBridge";
 
 const activityStarter = NativeModules.ActivityStarter;
+let ChatView;
 export default class MainComponent extends Component {
+  constructor(props){
+    super(props);
+    this.onPressTitle = this.onPressTitle.bind(this);
+    this.state= {
+      changed: false
+    };
+  }
   onPressTitle(){
-    activityStarter.alert();
+    let self = this;
+    activityStarter.alert().then(function (d) {
+      ChatView = d;
+      self.setState({changed: true});
+    });
   };
   render() {
     var navigationView = (
@@ -33,6 +45,7 @@ export default class MainComponent extends Component {
           <View style={{flex: 1, alignItems: 'center'}}>
             <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>Hello</Text>
             <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>World!</Text>
+            {this.state.changed?<ChatView />: null}
           </View>
       </DrawerLayoutAndroid>
     );
