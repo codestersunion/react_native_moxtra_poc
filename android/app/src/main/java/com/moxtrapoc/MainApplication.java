@@ -1,13 +1,11 @@
 package com.moxtrapoc;
 
 import android.app.Application;
-import android.content.Intent;
 
 import com.facebook.react.BuildConfig;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
@@ -30,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
               new MainReactPackage()
           );
         }
+
       };
 
     @Override
