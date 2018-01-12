@@ -14,13 +14,12 @@ class ActivityStarterReactPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
+        modules.add(new MyModule(reactContext));
         return modules;
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Arrays.<ViewManager>asList(
-                new MoxtraChatManager()
-        );
+        return Arrays.<ViewManager>asList(new MoxtraChatManager());
     }
 }

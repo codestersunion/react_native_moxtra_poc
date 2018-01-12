@@ -1,19 +1,18 @@
 package com.moxtrapoc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.facebook.react.ReactFragmentActivity;
+import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.uimanager.SimpleViewManager;
-import com.facebook.react.uimanager.ThemedReactContext;
 import com.moxtra.sdk.ChatClient;
 import com.moxtra.sdk.chat.controller.ChatController;
 import com.moxtra.sdk.chat.model.Chat;
@@ -24,13 +23,7 @@ import com.moxtra.sdk.common.ApiCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-/**
- * Created by aaronhaser on 1/10/18.
- */
-
-public class MoxtraChatManager extends SimpleViewManager<FrameLayout> {
+public class MyModule extends ReactContextBaseJavaModule {
 
     private static final String CLIENT_ID = "jHr8ZrYTuHI";
     private static final String CLIENT_SECRET = "liJO5EpHvrM";
@@ -43,59 +36,25 @@ public class MoxtraChatManager extends SimpleViewManager<FrameLayout> {
     private static ChatController mChatController;
     private static ChatRepo mChatRepo;
     private static Chat mChat;
+    protected View mView;
+
+    public MyModule(ReactApplicationContext reactContext) {
+        super(reactContext);
+    }
 
     @Override
     public String getName() {
-        return "MoxtraChatView";
+        return "MyModule";
     }
 
-    @Override
-    protected FrameLayout createViewInstance(ThemedReactContext reactContext) {
-//        linkWithUniqueID("amy@example.com", new Promise() {
-//            @Override
-//            public void resolve(@Nullable Object value) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, String message) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String code, String message, Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void reject(String message) {
-//
-//            }
-//
-//            @Override
-//            public void reject(Throwable reason) {
-//
-//            }
-//        });
-        Log.e(TAG, "chat manager is triggered");
-        FrameLayout frameLayout = new FrameLayout(reactContext);
-        Fragment fragment = CommonFragment.getChatFragment();
-        LayoutInflater mInflater = (LayoutInflater) reactContext.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = mInflater.inflate(R.layout.chat_frame_layout, frameLayout,false);
-//        Fragment fragment = mChatController.createChatFragment();
-//        Log.e(TAG, ""+frameLayout.getId());
-        ((ReactFragmentActivity) reactContext.getCurrentActivity())
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.chat_manager_ui, fragment).commit();
-        return frameLayout;
+    @ReactMethod
+    public void alert(Promise promise) {
+        Log.e(TAG, "alert is triggered");
+        Activity activity = getCurrentActivity();
+        if (activity != null) {
+            linkWithUniqueID("amy@example.com", promise);
+        }
     }
-
 
     private void linkWithUniqueID(final String uniqueId, final Promise promise) {
         Log.d(TAG, "Start to linkWithUniqueID...");
@@ -164,10 +123,11 @@ public class MoxtraChatManager extends SimpleViewManager<FrameLayout> {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-//                android.support.v4.app.Fragment fragment = mChatController.createChatFragment();
-//                View view = fragment.getView();
-                //its getting null here
-//                promise.resolve(view);
+                Fragment fragment = mChatController.createChatFragment();
+                CommonFragment.setChatFragment(fragment);
+                Log.e(TAG, "alert is finished");
+                String text = "It rendered";
+                promise.resolve(text);
             }
         });
     }
